@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ngo Minh Man — Portfolio 2026</title>
+<style>
+@font-face{font-family:'Clash';src:url('https://fonts.cdnfonts.com/s/67474/ClashDisplay-Variable.woff2') format('woff2');font-weight:100 900;font-style:normal}
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080808;
+  --white:#ffffff;
+  --w06:rgba(255,255,255,0.06);
+  --w10:rgba(255,255,255,0.10);
+  --w15:rgba(255,255,255,0.15);
+  --w25:rgba(255,255,255,0.25);
+  --w35:rgba(255,255,255,0.35);
+  --w50:rgba(255,255,255,0.50);
+  --w65:rgba(255,255,255,0.65);
+}
+html{scroll-behavior:smooth;scroll-snap-type:y mandatory}
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:'Clash',system-ui,sans-serif;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* CURSOR */
+#cur{
+  position:fixed;width:10px;height:10px;
+  background:#fff;border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform .15s ease,width .2s,height .2s,background .2s;
+  mix-blend-mode:difference;
+}
+#cur2{
+  position:fixed;width:36px;height:36px;
+  border:1px solid rgba(255,255,255,0.4);
+  border-radius:50%;pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:all .35s cubic-bezier(.34,1.56,.64,1);
+}
+
+/* SCROLL PROGRESS */
+#prog{
+  position:fixed;top:0;left:0;height:1px;
+  background:#fff;z-index:9997;
+  transform-origin:left;transform:scaleX(0);
+  transition:transform .1s linear;
+}
+
+/* GRAIN */
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9996;opacity:1;
+}
+
+/* NAV DOTS */
+#nav{
+  position:fixed;right:28px;top:50%;
+  transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:10px;
+  z-index:1000;
+}
+.nd{
+  width:5px;height:5px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.2);
+  cursor:pointer;
+  transition:all .3s ease;
+}
+.nd.on{
+  background:#fff;
+  transform:scale(1.6);
+}
+
+/* SECTIONS */
+section{
+  scroll-snap-align:start;
+  scroll-snap-stop:always;
+  min-height:100vh;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  padding:56px 64px;
+}
+
+/* WATERMARK */
+.wm{
+  position:absolute;
+  font-family:'Clash',sans-serif;
+  font-weight:900;
+  font-size:clamp(280px,40vw,600px);
+  color:rgba(255,255,255,0.025);
+  pointer-events:none;
+  user-select:none;
+  line-height:1;
+  z-index:0;
+}
+
+/* GLASS */
+.g{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.10);
+  border-radius:20px;
+  position:relative;
+  overflow:hidden;
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+}
+.g::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.18),transparent);
+}
+.gpill{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:999px;
+  display:inline-flex;align-items:center;
+}
+
+/* LABEL */
+.lbl{
+  font-size:10px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--w35);
+}
+
+/* REVEAL ANIMATION */
+.rv{
+  opacity:0;
+  transform:translateY(32px);
+  transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1);
+}
+.rv.vis{opacity:1;transform:translateY(0)}
+
+/* ══════════════════════════════════
+   HERO
+══════════════════════════════════ */
+#hero{justify-content:space-between}
+#hero .wm{bottom:-10%;right:-5%;transform:rotate(-5deg)}
+#hero .top{
+  display:flex;justify-content:space-between;
+  align-items:flex-start;position:relative;z-index:1;
+}
+#hero .name-block{
+  position:relative;z-index:1;
+  margin-top:auto;padding-top:40px;
+}
+#hero h1.big{
+  font-size:clamp(80px,18vw,240px);
+  font-weight:900;
+  line-height:.85;
+  letter-spacing:-.04em;
+  color:#fff;
+}
+#hero h1.mid{
+  font-size:clamp(56px,12vw,170px);
+  font-weight:400;
+  line-height:.9;
+  letter-spacing:-.03em;
+  color:var(--w35);
+  margin-left:12px;
+}
+#hero .rule{height:1px;background:rgba(255,255,255,0.08);margin:32px 0}
+#hero .tagrow{
+  display:flex;justify-content:space-between;
+  align-items:center;flex-wrap:wrap;gap:16px;
+}
+#hero .roles{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+#hero .roles span{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#fff}
+#hero .roles .dot{width:4px;height:4px;border-radius:50%;background:var(--w25)}
+#hero .slogan{
+  font-size:clamp(13px,1.5vw,17px);
+  font-weight:400;
+  color:var(--w50);
+  font-style:italic;
+  letter-spacing:.02em;
+}
+#hero .scroll-ind{
+  position:absolute;bottom:40px;left:50%;
+  transform:translateX(-50%);
+  display:flex;flex-direction:column;
+  align-items:center;gap:10px;z-index:1;
+}
+#hero .scroll-line{
+  width:1px;height:48px;
+  background:rgba(255,255,255,0.15);
+  position:relative;overflow:hidden;
+}
+#hero .scroll-line::after{
+  content:'';position:absolute;top:-100%;
+  left:0;width:100%;height:40%;
+  background:rgba(255,255,255,0.7);
+  animation:scrollpulse 2s ease-in-out infinite;
+}
+@keyframes scrollpulse{0%{top:-40%}100%{top:140%}}
+
+/* ══════════════════════════════════
+   ABOUT
+══════════════════════════════════ */
+#about .wm{top:-10%;left:-5%}
+#about .inner{
+  position:relative;z-index:1;
+  flex:1;display:flex;flex-direction:column;justify-content:center;
+  gap:40px;
+}
+#about .ab-grid{display:grid;grid-template-columns:55% 1fr;gap:48px;align-items:start}
+#about .ab-title{font-size:clamp(44px,7vw,88px);font-weight:900;line-height:.9;letter-spacing:-.03em;color:#fff}
+#about .ab-title span{color:var(--w35);font-weight:400}
+#about .ab-body p{
+  font-size:clamp(14px,1.4vw,16px);
+  font-weight:300;
+  line-height:1.9;
+  color:var(--w55,rgba(255,255,255,.55));
+  margin-bottom:20px;
+}
+#about .ab-body p strong{color:#fff;font-weight:600}
+#about .quote-card{padding:36px 40px}
+#about .qt{
+  font-size:clamp(16px,2vw,24px);
+  font-weight:400;
+  line-height:1.55;
+  color:var(--w65);
+  margin-bottom:16px;
+  letter-spacing:.01em;
+}
+#about .qt-attr{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--w35)}
+#about .stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:rgba(255,255,255,0.06);border-radius:16px;overflow:hidden}
+#about .stat{background:var(--bg);padding:28px 24px}
+#about .stat-n{font-size:52px;font-weight:900;color:rgba(255,255,255,0.07);line-height:1;margin-bottom:6px}
+#about .stat-l{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--w35)}
+
+/* ══════════════════════════════════
+   SKILLS
+══════════════════════════════════ */
+#skills .wm{bottom:-10%;right:-5%}
+#skills .inner{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:center;gap:32px}
+#skills .sk-head{display:grid;grid-template-columns:auto 1fr;gap:48px;align-items:end}
+#skills .sk-title{font-size:clamp(44px,6vw,80px);font-weight:900;line-height:.9;letter-spacing:-.03em;color:#fff}
+#skills .sk-title span{color:var(--w35);font-weight:400;display:block}
+#skills .sk-meta{text-align:right}
+#skills .tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#skills .tc{padding:28px 28px 24px;transition:transform .3s ease,background .3s ease}
+#skills .tc:hover{background:rgba(255,255,255,0.08);transform:translateY(-3px)}
+#skills .tc-glyph{font-size:28px;color:rgba(255,255,255,0.12);margin-bottom:14px;line-height:1}
+#skills .tc-name{font-size:clamp(16px,2vw,22px);font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:-.01em}
+#skills .tc-cat{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--w35);margin-bottom:14px}
+#skills .bar{height:2px;background:rgba(255,255,255,0.08);border-radius:999px;overflow:hidden}
+#skills .bar-fill{height:100%;border-radius:999px;background:rgba(255,255,255,0.3);width:0;transition:width 1.4s cubic-bezier(.22,1,.36,1)}
+#skills .ai-row{padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+#skills .ai-row .left{display:flex;align-items:center;gap:16px}
+#skills .ai-name{font-size:18px;font-weight:700;color:#fff;letter-spacing:-.01em}
+#skills .ai-sub{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--w35);margin-top:4px}
+#skills .lang-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#skills .lc{padding:20px 24px;display:flex;align-items:center;gap:16px}
+#skills .lc .flag{font-size:24px;line-height:1}
+#skills .lc-name{font-size:15px;font-weight:700;color:#fff;letter-spacing:-.01em}
+#skills .lc-lv{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--w35);margin-top:3px}
+
+/* ══════════════════════════════════
+   PILLARS
+══════════════════════════════════ */
+#pillars .wm{top:-10%;left:-5%}
+#pillars .inner{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:center;gap:32px}
+#pillars .pl-head{font-size:clamp(44px,7vw,90px);font-weight:900;line-height:.9;letter-spacing:-.03em;color:#fff}
+#pillars .pl-head span{color:var(--w35);font-weight:400}
+#pillars .pl-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;flex:1}
+#pillars .pc{padding:36px 28px;display:flex;flex-direction:column;min-height:280px}
+#pillars .pc-num{font-size:clamp(64px,8vw,120px);font-weight:900;color:rgba(255,255,255,0.04);line-height:1;margin-bottom:16px}
+#pillars .pc-cat{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--w35);margin-bottom:12px}
+#pillars .pc-title{font-size:clamp(16px,2vw,22px);font-weight:700;color:#fff;margin-bottom:12px;letter-spacing:-.01em}
+#pillars .pc-desc{font-size:13px;line-height:1.85;color:var(--w50,rgba(255,255,255,.5));margin-top:auto}
+#pillars .manifesto{padding:24px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+#pillars .mq{font-size:clamp(14px,1.8vw,20px);font-weight:400;color:var(--w65);letter-spacing:.01em;flex:1;text-align:center}
+
+/* ══════════════════════════════════
+   LIFE
+══════════════════════════════════ */
+#life .wm{bottom:-10%;right:-5%}
+#life .inner{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:center;gap:32px}
+#life .lf-head{font-size:clamp(44px,7vw,88px);font-weight:900;line-height:.9;letter-spacing:-.03em;color:#fff}
+#life .lf-head span{color:var(--w35);font-weight:400}
+#life .hb-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+#life .hc{padding:32px 24px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
+#life .hc-glyph{font-size:40px;color:rgba(255,255,255,0.08);line-height:1}
+#life .hc-title{font-size:clamp(14px,1.8vw,18px);font-weight:700;color:#fff;letter-spacing:-.01em}
+#life .hc-desc{font-size:12px;line-height:1.8;color:var(--w35);max-width:220px}
+#life .feat-row{display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr;gap:0;padding:28px 32px}
+#life .feat-item{text-align:center;padding:0 24px}
+#life .feat-n{font-size:clamp(28px,4vw,48px);font-weight:900;color:rgba(255,255,255,0.07);line-height:1;margin-bottom:8px}
+#life .feat-l{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--w35)}
+#life .vd{background:rgba(255,255,255,0.07)}
+#life .quote-card{padding:32px 40px;text-align:center}
+#life .quote-card p{font-size:clamp(14px,1.8vw,22px);font-weight:400;color:var(--w60,rgba(255,255,255,.6));line-height:1.55;letter-spacing:.01em}
+
+/* ══════════════════════════════════
+   CONTACT
+══════════════════════════════════ */
+#contact .wm{top:-10%;right:-5%;transform:rotate(-5deg)}
+#contact .inner{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:space-between}
+#contact .ct-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:48px}
+#contact .ct-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center;flex:1}
+#contact .ct-cta .big{font-size:clamp(56px,12vw,150px);font-weight:900;line-height:.85;letter-spacing:-.04em;color:#fff}
+#contact .ct-cta .italic{font-size:clamp(44px,9vw,120px);font-weight:400;line-height:.9;letter-spacing:-.03em;color:var(--w35)}
+#contact .ct-right p{font-size:clamp(14px,1.4vw,16px);font-weight:300;line-height:1.9;color:var(--w50,rgba(255,255,255,.5));margin-bottom:28px}
+#contact .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#contact .ic{padding:20px 22px;text-decoration:none;display:block;transition:background .25s}
+#contact .ic:hover{background:rgba(255,255,255,0.09)}
+#contact .ic-lbl{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--w35);margin-bottom:6px}
+#contact .ic-val{font-size:clamp(12px,1.3vw,15px);font-weight:600;color:#fff;letter-spacing:-.01em}
+#contact .footer{
+  display:flex;justify-content:space-between;
+  align-items:center;padding-top:24px;
+  border-top:1px solid rgba(255,255,255,0.05);
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+<div id="prog"></div>
+
+<!-- NAV DOTS -->
+<div id="nav">
+  <div class="nd on" data-sec="hero"></div>
+  <div class="nd" data-sec="about"></div>
+  <div class="nd" data-sec="skills"></div>
+  <div class="nd" data-sec="pillars"></div>
+  <div class="nd" data-sec="life"></div>
+  <div class="nd" data-sec="contact"></div>
+</div>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="wm" style="font-family:'Clash',sans-serif">01</div>
+  <div class="top rv">
+    <span class="lbl">Portfolio — 2026</span>
+    <div class="gpill" style="padding:9px 22px"><span class="lbl" style="color:rgba(255,255,255,.6)">© 2026 · Open for Collaboration</span></div>
+    <span class="lbl">UI/UX & Multimedia · HCMC, VN</span>
+  </div>
+  <div class="name-block">
+    <h1 class="big rv" style="transition-delay:.1s">NGO</h1>
+    <h1 class="mid rv" style="transition-delay:.2s">Minh</h1>
+    <h1 class="big rv" style="transition-delay:.3s">Man.</h1>
+    <div class="rule rv" style="transition-delay:.4s"></div>
+    <div class="tagrow rv" style="transition-delay:.5s">
+      <div class="roles">
+        <span>UI/UX Designer</span>
+        <div class="dot"></div>
+        <span>Multimedia Editor</span>
+        <div class="dot"></div>
+        <span>AI-Powered Creator</span>
+      </div>
+      <p class="slogan">"Failure only happens when you give up."</p>
+    </div>
+  </div>
+  <div class="scroll-ind">
+    <span class="lbl">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ══ ABOUT ══ -->
+<section id="about">
+  <div class="wm" style="font-family:'Clash',sans-serif">02</div>
+  <span class="lbl rv" style="position:relative;z-index:1;margin-bottom:32px">— 01 / The Philosophy</span>
+  <div class="inner">
+    <div class="ab-grid rv" style="transition-delay:.1s">
+      <div>
+        <div class="ab-title">Design<br><span>is an</span><br>Obsession.</div>
+      </div>
+      <div class="ab-body">
+        <p>I am <strong>Ngo Minh Man</strong>. I build interfaces and multimedia experiences with an incurable condition — <strong>absolute perfectionism.</strong></p>
+        <p>Every pixel is calibrated. Every millisecond of animation is intentional. Every interaction is designed to make users feel something.</p>
+        <p>This is not a job. <strong>This is a craft.</strong></p>
+      </div>
+    </div>
+    <div class="g quote-card rv" style="transition-delay:.2s">
+      <p class="qt">"When perfectionism meets AI — Claude, OpenAI, next-generation tools — the result is not just design. It is a breakthrough experience built for the future."</p>
+      <span class="qt-attr">— Ngo Minh Man, Perfectionist by Design</span>
+    </div>
+    <div class="stat-row rv" style="transition-delay:.3s">
+      <div class="stat"><div class="stat-n">∞</div><div class="stat-l">Pixels optimized</div></div>
+      <div class="stat"><div class="stat-n">0ms</div><div class="stat-l">Tolerance accepted</div></div>
+      <div class="stat"><div class="stat-n">AI</div><div class="stat-l">Powered workflow</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SKILLS ══ -->
+<section id="skills">
+  <div class="wm" style="font-family:'Clash',sans-serif">03</div>
+  <span class="lbl rv" style="position:relative;z-index:1;margin-bottom:32px">— 02 / The Arsenal</span>
+  <div class="inner">
+    <div class="sk-head rv" style="transition-delay:.1s">
+      <div>
+        <div class="sk-title">Skills &<span>Weapons.</span></div>
+      </div>
+      <div class="sk-meta">
+        <div class="lbl">Figma · After Effects<br>Illustrator · Photoshop · AI</div>
+      </div>
+    </div>
+    <div class="tool-grid rv" style="transition-delay:.2s">
+      <div class="g tc" data-level="95">
+        <div class="tc-glyph">◈</div>
+        <div class="tc-name">FIGMA</div>
+        <div class="tc-cat">UI Design · Prototyping · Components</div>
+        <div class="bar"><div class="bar-fill"></div></div>
+      </div>
+      <div class="g tc" data-level="90">
+        <div class="tc-glyph">◎</div>
+        <div class="tc-name">AFTER EFFECTS</div>
+        <div class="tc-cat">Motion Graphics · VFX · Animation</div>
+        <div class="bar"><div class="bar-fill"></div></div>
+      </div>
+      <div class="g tc" data-level="85">
+        <div class="tc-glyph">⬡</div>
+        <div class="tc-name">ILLUSTRATOR</div>
+        <div class="tc-cat">Vector Design · Brand Identity</div>
+        <div class="bar"><div class="bar-fill"></div></div>
+      </div>
+      <div class="g tc" data-level="88">
+        <div class="tc-glyph">▣</div>
+        <div class="tc-name">PHOTOSHOP</div>
+        <div class="tc-cat">Visual Design · Photo Manipulation</div>
+        <div class="bar"><div class="bar-fill"></div></div>
+      </div>
+    </div>
+    <div class="g ai-row rv" style="transition-delay:.3s">
+      <div class="left">
+        <div style="font-size:24px;color:rgba(255,255,255,0.12)">◇</div>
+        <div>
+          <div class="ai-name">AI TOOLS</div>
+          <div class="ai-sub">Claude · OpenAI · Generative Workflow</div>
+        </div>
+      </div>
+      <div class="gpill" style="padding:8px 20px"><span class="lbl" style="color:rgba(255,255,255,.6)">Integrated & Evolving</span></div>
+    </div>
+    <div class="lang-row rv" style="transition-delay:.4s">
+      <div class="g lc">
+        <div class="flag">🇻🇳</div>
+        <div><div class="lc-name">VIETNAMESE</div><div class="lc-lv">Native Language</div></div>
+      </div>
+      <div class="g lc">
+        <div class="flag">🇬🇧</div>
+        <div><div class="lc-name">ENGLISH</div><div class="lc-lv">Fluent · Professional</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PILLARS ══ -->
+<section id="pillars">
+  <div class="wm" style="font-family:'Clash',sans-serif">04</div>
+  <span class="lbl rv" style="position:relative;z-index:1;margin-bottom:32px">— 03 / Design Weapons</span>
+  <div class="inner">
+    <div class="rv" style="transition-delay:.1s">
+      <div class="pl-head"><span>The</span> 3 Pillars.</div>
+    </div>
+    <div class="pl-grid rv" style="transition-delay:.2s">
+      <div class="g pc">
+        <div class="pc-num">01</div>
+        <div class="pc-cat">— Physics</div>
+        <div class="pc-title">Physics & Motion</div>
+        <p class="pc-desc">Real-world physics lets me create Motion Graphics so natural — viewers feel gravity in every frame. Nature is the greatest animator.</p>
+      </div>
+      <div class="g pc">
+        <div class="pc-num">02</div>
+        <div class="pc-cat">— Psychology</div>
+        <div class="pc-title">Psychology & UX</div>
+        <p class="pc-desc">Psychology is the map of human behavior. I do not design to look good. I design so users feel right.</p>
+      </div>
+      <div class="g pc">
+        <div class="pc-num">03</div>
+        <div class="pc-cat">— Fashion</div>
+        <div class="pc-title">Fashion & Aesthetics</div>
+        <p class="pc-desc">Fashion taught me color, proportion, and trend forecasting. My interfaces never look dated. They look ahead.</p>
+      </div>
+    </div>
+    <div class="g manifesto rv" style="transition-delay:.3s">
+      <span class="lbl">Personal Manifesto —</span>
+      <p class="mq">"Failure only happens when you give up."</p>
+      <span class="lbl">— Ngo Minh Man</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ LIFE ══ -->
+<section id="life">
+  <div class="wm" style="font-family:'Clash',sans-serif">05</div>
+  <span class="lbl rv" style="position:relative;z-index:1;margin-bottom:32px">— 04 / The Creative Life</span>
+  <div class="inner">
+    <div class="rv" style="transition-delay:.1s">
+      <div class="lf-head">Life &<br><span>Inspiration.</span></div>
+    </div>
+    <div class="hb-grid rv" style="transition-delay:.2s">
+      <div class="g hc">
+        <div class="hc-glyph">◉</div>
+        <div class="hc-title">PHOTOGRAPHY</div>
+        <p class="hc-desc">Real moments sharpen the eye. Every shot teaches light, shadow, and emotion — the same language as good design.</p>
+      </div>
+      <div class="g hc">
+        <div class="hc-glyph">♩</div>
+        <div class="hc-title">MUSIC</div>
+        <p class="hc-desc">Rhythm defines timing. From 808s to easing curves — music is motion design for the ears.</p>
+      </div>
+      <div class="g hc">
+        <div class="hc-glyph">◈</div>
+        <div class="hc-title">CINEMA</div>
+        <p class="hc-desc">Film is narrative design at scale. Every cut, every frame — a lesson in how visuals make people feel.</p>
+      </div>
+    </div>
+    <div class="g feat-row rv" style="transition-delay:.3s">
+      <div class="feat-item"><div class="feat-n">∞</div><div class="feat-l">Creative Hours</div></div>
+      <div class="vd"></div>
+      <div class="feat-item"><div class="feat-n">5+</div><div class="feat-l">Tools Mastered</div></div>
+      <div class="vd"></div>
+      <div class="feat-item"><div class="feat-n">AI</div><div class="feat-l">Output Amplified</div></div>
+    </div>
+    <div class="g quote-card rv" style="transition-delay:.4s">
+      <p>"Design is not decoration. It is the bridge between human emotion and digital experience."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section id="contact">
+  <div class="wm" style="font-family:'Clash',sans-serif">06</div>
+  <div class="inner">
+    <div class="ct-top rv">
+      <span class="lbl">— 05 / Let's Create</span>
+      <div class="gpill" style="padding:8px 20px"><span class="lbl" style="color:rgba(100,255,180,.7)">● Currently Available</span></div>
+    </div>
+    <div class="ct-grid rv" style="transition-delay:.1s">
+      <div class="ct-cta">
+        <div class="italic">Let's</div>
+        <div class="big">Build</div>
+        <div class="big">Something</div>
+        <div class="italic">Extraordinary.</div>
+      </div>
+      <div class="ct-right">
+        <p>I am always open to world-class projects. If you want a product that is not only beautiful but perfect down to every last detail — I want to hear from you.</p>
+        <div class="info-grid">
+          <a class="g ic" href="tel:+84327469961">
+            <div class="ic-lbl">Phone</div>
+            <div class="ic-val">+84 327 469 961</div>
+          </a>
+          <a class="g ic" href="mailto:minhman03012009@gmail.com">
+            <div class="ic-lbl">Email</div>
+            <div class="ic-val">minhman03012009@gmail.com</div>
+          </a>
+          <a class="g ic" href="https://behance.net/mnminh21" target="_blank">
+            <div class="ic-lbl">Behance</div>
+            <div class="ic-val">behance.net/mnminh21</div>
+          </a>
+          <a class="g ic" href="https://instagram.com/c0rthxc" target="_blank">
+            <div class="ic-lbl">Instagram</div>
+            <div class="ic-val">@c0rthxc</div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer rv" style="transition-delay:.2s">
+      <span class="lbl">Ngo Minh Man — Portfolio 2026</span>
+      <span class="lbl">Designed with obsession. Powered by AI.</span>
+    </div>
+  </div>
+</section>
+
+<script>
+// CURSOR
+const cur=document.getElementById('cur'),cur2=document.getElementById('cur2')
+let mx=0,my=0,cx=0,cy=0
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'})
+function lerp(a,b,t){return a+(b-a)*t}
+function animCursor(){cx=lerp(cx,mx,.12);cy=lerp(cy,my,.12);cur2.style.left=cx+'px';cur2.style.top=cy+'px';requestAnimationFrame(animCursor)}
+animCursor()
+document.querySelectorAll('a,.g,.nd,.gpill').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2.5)';cur2.style.transform='translate(-50%,-50%) scale(1.5)'})
+  el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';cur2.style.transform='translate(-50%,-50%) scale(1)'})
+})
+
+// SCROLL PROGRESS
+const prog=document.getElementById('prog')
+window.addEventListener('scroll',()=>{
+  const p=window.scrollY/(document.body.scrollHeight-window.innerHeight)
+  prog.style.transform=`scaleX(${p})`
+},{ passive:true })
+
+// NAV DOTS
+const secs=['hero','about','skills','pillars','life','contact']
+const dots=document.querySelectorAll('.nd')
+dots.forEach(d=>{
+  d.addEventListener('click',()=>{
+    document.getElementById(d.dataset.sec).scrollIntoView({behavior:'smooth'})
+  })
+})
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      dots.forEach(d=>d.classList.remove('on'))
+      const d=document.querySelector(`.nd[data-sec="${e.target.id}"]`)
+      if(d)d.classList.add('on')
+    }
+  })
+},{threshold:.5})
+secs.forEach(id=>{const el=document.getElementById(id);if(el)io.observe(el)})
+
+// REVEAL
+const rv=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')})
+},{threshold:.1})
+document.querySelectorAll('.rv').forEach(el=>rv.observe(el))
+
+// BAR ANIMATION
+const barObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.tc[data-level]').forEach(tc=>{
+        const fill=tc.querySelector('.bar-fill')
+        if(fill)setTimeout(()=>{fill.style.width=tc.dataset.level+'%'},300)
+      })
+    }
+  })
+},{threshold:.2})
+const skillsSec=document.getElementById('skills')
+if(skillsSec)barObs.observe(skillsSec)
+</script>
+</body>
+</html>

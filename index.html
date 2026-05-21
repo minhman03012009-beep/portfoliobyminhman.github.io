@@ -168,35 +168,58 @@ section{scroll-snap-align:start;scroll-snap-stop:always;min-height:100vh;positio
 </div>
 
 <!-- ══ HERO ══ -->
-<section id="hero">
+<section id="hero" style="padding:40px 60px 0;justify-content:space-between">
   <div class="wm" style="bottom:-8%;right:-4%;transform:rotate(-4deg)">01</div>
-  <div class="top rv">
-    <span class="lbl">Portfolio — 2026</span>
-    <div class="gpill" style="padding:8px 20px"><span class="lbl" style="color:rgba(255,255,255,.6)">© 2026 · Open for Collaboration</span></div>
-    <span class="lbl">UI/UX & Multimedia · HCMC, VN</span>
-  </div>
-  <div class="name-block">
-    <h1 class="big rv" style="transition-delay:.1s">NGO</h1>
-    <h1 class="mid rv" style="transition-delay:.2s">Minh</h1>
-    <h1 class="big rv" style="transition-delay:.3s">Man.</h1>
-    <div class="rule rv" style="transition-delay:.4s"></div>
-    <div class="tagrow rv" style="transition-delay:.5s">
-      <div class="roles">
-        <span>UI/UX Designer</span><div class="dot"></div>
-        <span>Multimedia Editor</span><div class="dot"></div>
-        <span>AI-Powered Creator</span>
-      </div>
+
+  <!-- TOP BAR -->
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:1" class="rv">
+    <div>
+      <div style="font-size:11px;letter-spacing:.05em;color:rgba(255,255,255,0.25);margin-bottom:4px">2026</div>
+      <div style="font-size:11px;letter-spacing:.05em;color:rgba(255,255,255,0.5);font-weight:500">Creative Presentation</div>
     </div>
-    <!-- SLOGAN BLOCK -->
-    <div class="rv" style="transition-delay:.6s;margin-top:40px;padding-top:36px;border-top:1px solid rgba(255,255,255,0.05);display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap">
-      <div>
-        <div style="font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:14px">— Personal Manifesto</div>
-        <div style="font-size:clamp(22px,4vw,52px);font-weight:900;line-height:1.05;letter-spacing:-.03em;color:rgba(255,255,255,0.9)">"Failure only happens</div>
-        <div style="font-size:clamp(22px,4vw,52px);font-weight:400;line-height:1.05;letter-spacing:-.03em;color:rgba(255,255,255,0.35)">when you give up."</div>
-      </div>
-      <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,0.2);text-align:right;padding-bottom:4px">Ngo Minh Man<br>2026</div>
+    <div class="gpill" style="padding:8px 20px"><span class="lbl" style="color:rgba(255,255,255,.5)">© 2026 · Open for Collaboration</span></div>
+    <div style="text-align:right">
+      <div style="font-size:11px;letter-spacing:.05em;color:rgba(255,255,255,0.25);margin-bottom:4px">HCMC, Vietnam</div>
+      <div style="font-size:11px;letter-spacing:.05em;color:rgba(255,255,255,0.5);font-weight:500">UI/UX & Multimedia</div>
     </div>
   </div>
+
+  <!-- MIDDLE INFO ROW -->
+  <div style="display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;padding:0 2px" class="rv" style="transition-delay:.2s">
+    <div style="display:flex;align-items:center;gap:16px">
+      <span style="font-size:12px;letter-spacing:.05em;color:rgba(255,255,255,0.4)">UI/UX Designer</span>
+      <span style="color:rgba(255,255,255,0.2);font-size:12px">/</span>
+      <span style="font-size:12px;letter-spacing:.05em;color:rgba(255,255,255,0.4)">Multimedia Editor</span>
+      <span style="color:rgba(255,255,255,0.2);font-size:12px">/</span>
+      <span style="font-size:12px;letter-spacing:.05em;color:rgba(255,255,255,0.4)">AI-Powered Creator</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:32px">
+      <span style="font-size:12px;letter-spacing:.05em;color:rgba(255,255,255,0.4)">minhman03012009@gmail.com</span>
+      <span style="font-size:12px;letter-spacing:.05em;color:rgba(255,255,255,0.4)">+84 327 469 961</span>
+      <span style="font-size:12px;letter-spacing:.05em;color:rgba(255,255,255,0.4)">HCMC, Vietnam</span>
+    </div>
+  </div>
+
+  <!-- MASSIVE PORTFOLIO TEXT -->
+  <div style="position:relative;z-index:1;overflow:hidden;line-height:0.82;margin:0 -60px;margin-top:100px" class="rv" style="transition-delay:.3s">
+    <div style="font-size:clamp(100px,22vw,280px);font-weight:900;letter-spacing:-.04em;color:#ffffff;line-height:0.82;padding:0 20px">
+      Portfolio
+    </div>
+    <!-- BY NAME — overlaid above the text -->
+    <div style="position:absolute;top:12px;left:28px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,0.3);font-weight:400">
+      by NGO MINH MAN
+    </div>
+  </div>
+
+  <!-- SLOGAN BOTTOM -->
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:36px;position:relative;z-index:1;border-top:1px solid rgba(255,255,255,0.05);padding-top:20px" class="rv" style="transition-delay:.5s">
+    <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,0.18)">Ngo Minh Man · 2026</div>
+    <div style="text-align:right">
+      <div style="font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:8px">Personal Manifesto —</div>
+      <div style="font-size:clamp(14px,2vw,22px);font-weight:900;line-height:1.1;letter-spacing:-.02em;color:rgba(255,255,255,0.75)">"Failure only happens when you give up."</div>
+    </div>
+  </div>
+
   <div class="scroll-ind">
     <span class="lbl">Scroll</span>
     <div class="scroll-line"></div>

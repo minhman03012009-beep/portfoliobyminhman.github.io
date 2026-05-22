@@ -10,143 +10,127 @@
 html{scroll-behavior:smooth;scroll-snap-type:y mandatory}
 body{background:var(--bg);color:#fff;font-family:system-ui,sans-serif;overflow-x:hidden;cursor:none}
 
-/* DYNAMIC BACKGROUND */
 #bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 #bg-canvas canvas{position:absolute;inset:0}
-
-/* GRAIN */
-#grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:1;
+#grain{position:fixed;inset:0;z-index:1;pointer-events:none;
 background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E")}
 
-/* CURSOR */
-#cur{position:fixed;width:8px;height:8px;background:#fff;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:transform .15s}
-#cur2{position:fixed;width:32px;height:32px;border:1px solid rgba(255,255,255,0.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .35s cubic-bezier(.34,1.56,.64,1)}
+/* CURSOR — desktop only */
+#cur,#cur2{display:none}
+@media(pointer:fine){
+  #cur{display:block;position:fixed;width:8px;height:8px;background:#fff;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:transform .15s}
+  #cur2{display:block;position:fixed;width:32px;height:32px;border:1px solid rgba(255,255,255,0.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .35s cubic-bezier(.34,1.56,.64,1)}
+  body{cursor:none}
+}
+@media(pointer:coarse){body{cursor:auto}}
 
-/* PROGRESS */
-#prog{position:fixed;top:0;left:0;height:1px;background:#fff;z-index:9997;transform-origin:left;transform:scaleX(0);transition:transform .1s linear}
+#prog{position:fixed;top:0;left:0;height:2px;background:#fff;z-index:9997;transform-origin:left;transform:scaleX(0);transition:transform .1s linear}
 
 /* NAV DOTS */
-#nav{position:fixed;right:24px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:1000}
+#nav{position:fixed;right:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:1000}
 .nd{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.18);cursor:pointer;transition:all .3s}
 .nd.on{background:#fff;transform:scale(1.7)}
 
 /* SECTIONS */
-section{scroll-snap-align:start;scroll-snap-stop:always;min-height:100vh;position:relative;z-index:2;display:flex;flex-direction:column;padding:52px 60px;overflow:hidden}
+section{scroll-snap-align:start;scroll-snap-stop:always;min-height:100vh;position:relative;z-index:2;display:flex;flex-direction:column;padding:40px 24px;overflow:hidden}
+@media(min-width:768px){section{padding:52px 60px}}
 
 /* WATERMARK */
-.wm{position:absolute;font-size:clamp(240px,38vw,580px);font-weight:900;color:rgba(255,255,255,0.022);pointer-events:none;user-select:none;line-height:1;z-index:0;letter-spacing:-.06em}
+.wm{position:absolute;font-size:clamp(140px,38vw,580px);font-weight:900;color:rgba(255,255,255,0.022);pointer-events:none;user-select:none;line-height:1;z-index:0;letter-spacing:-.06em}
 
 /* GLASS */
-.g{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:20px;position:relative;overflow:hidden;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.g{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:16px;position:relative;overflow:hidden;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+@media(min-width:768px){.g{border-radius:20px}}
 .g::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.16),transparent)}
 .gpill{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.11);border-radius:999px;display:inline-flex;align-items:center}
 
-/* LABEL */
 .lbl{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--w35)}
 
-/* REVEAL */
 .rv{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1)}
 .rv.vis{opacity:1;transform:translateY(0)}
 
-/* ── HERO ── */
-#hero .top{display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:1}
-#hero .name-block{position:relative;z-index:1;margin-top:auto;padding-top:32px}
-#hero h1.big{font-size:clamp(72px,16vw,220px);font-weight:900;line-height:.85;letter-spacing:-.04em;color:#fff}
-#hero h1.mid{font-size:clamp(52px,11vw,160px);font-weight:400;line-height:.9;letter-spacing:-.03em;color:var(--w35);margin-left:10px}
-#hero .rule{height:1px;background:rgba(255,255,255,0.07);margin:28px 0}
-#hero .tagrow{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
-#hero .roles{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-#hero .roles span{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#fff}
-#hero .dot{width:3px;height:3px;border-radius:50%;background:var(--w25)}
-#hero .slogan{font-size:clamp(12px,1.4vw,16px);font-weight:400;color:var(--w50);font-style:italic;letter-spacing:.02em}
-#hero .scroll-ind{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:1}
-#hero .scroll-line{width:1px;height:44px;background:rgba(255,255,255,0.12);position:relative;overflow:hidden}
+/* ══ HERO ══ */
+#hero{padding:32px 20px 0;justify-content:space-between}
+@media(min-width:768px){#hero{padding:40px 60px 0}}
+
+#hero .scroll-ind{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:1}
+#hero .scroll-line{width:1px;height:36px;background:rgba(255,255,255,0.12);position:relative;overflow:hidden}
 #hero .scroll-line::after{content:'';position:absolute;top:-40%;left:0;width:100%;height:40%;background:rgba(255,255,255,0.6);animation:sp 2s ease-in-out infinite}
 @keyframes sp{0%{top:-40%}100%{top:140%}}
 
-/* ── ABOUT ── */
-#about .inner{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:center;gap:36px}
-#about .ab-grid{display:grid;grid-template-columns:55% 1fr;gap:44px;align-items:start}
-#about .ab-title{font-size:clamp(40px,6.5vw,84px);font-weight:900;line-height:.9;letter-spacing:-.03em;color:#fff}
+/* ══ ABOUT ══ */
+#about .inner{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:center;gap:24px}
+#about .ab-grid{display:flex;flex-direction:column;gap:24px}
+@media(min-width:768px){#about .ab-grid{display:grid;grid-template-columns:55% 1fr;gap:44px;align-items:start}}
+#about .ab-title{font-size:clamp(36px,8vw,84px);font-weight:900;line-height:.9;letter-spacing:-.03em;color:#fff}
 #about .ab-title span{color:var(--w35);font-weight:400}
-#about .ab-body p{font-size:clamp(13px,1.3vw,15px);font-weight:300;line-height:1.9;color:rgba(255,255,255,.55);margin-bottom:18px}
+#about .ab-body p{font-size:14px;font-weight:300;line-height:1.9;color:rgba(255,255,255,.55);margin-bottom:14px}
 #about .ab-body p strong{color:#fff;font-weight:600}
-#about .quote-card{padding:32px 38px}
-#about .qt{font-size:clamp(15px,1.8vw,22px);font-weight:400;line-height:1.55;color:var(--w65);margin-bottom:14px;letter-spacing:.01em}
+#about .quote-card{padding:24px 24px}
+@media(min-width:768px){#about .quote-card{padding:32px 38px}}
+#about .qt{font-size:clamp(14px,1.8vw,22px);font-weight:400;line-height:1.55;color:var(--w65);margin-bottom:12px;letter-spacing:.01em}
 #about .qt-attr{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--w35)}
-#about .stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:rgba(255,255,255,0.05);border-radius:16px;overflow:hidden}
-#about .stat{background:var(--bg);padding:26px 22px}
-#about .stat-n{font-size:48px;font-weight:900;color:rgba(255,255,255,0.07);line-height:1;margin-bottom:6px}
-#about .stat-l{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--w35)}
+#about .stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:rgba(255,255,255,0.05);border-radius:12px;overflow:hidden}
+#about .stat{background:var(--bg);padding:20px 16px}
+@media(min-width:768px){#about .stat{padding:26px 22px}}
+#about .stat-n{font-size:clamp(28px,5vw,48px);font-weight:900;color:rgba(255,255,255,0.07);line-height:1;margin-bottom:5px}
+#about .stat-l{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--w35)}
 
-/* ── SKILLS ── */
-#skills .inner{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:center;gap:28px}
-#skills .sk-head{display:grid;grid-template-columns:auto 1fr;gap:44px;align-items:end}
-#skills .sk-title{font-size:clamp(40px,5.5vw,76px);font-weight:900;line-height:.9;letter-spacing:-.03em;color:#fff}
+/* ══ SKILLS ══ */
+#skills .inner{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:center;gap:20px}
+#skills .sk-head{display:flex;flex-direction:column;gap:8px}
+@media(min-width:768px){#skills .sk-head{display:grid;grid-template-columns:auto 1fr;gap:44px;align-items:end}}
+#skills .sk-title{font-size:clamp(32px,7vw,76px);font-weight:900;line-height:.9;letter-spacing:-.03em;color:#fff}
 #skills .sk-title span{color:var(--w35);font-weight:400;display:block}
-#skills .tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-#skills .tc{padding:26px 26px 22px;transition:transform .3s,background .3s;cursor:default}
+#skills .tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#skills .tc{padding:20px 18px;transition:transform .3s,background .3s;cursor:default}
+@media(min-width:768px){#skills .tc{padding:26px 26px 22px}}
 #skills .tc:hover{background:rgba(255,255,255,0.08);transform:translateY(-3px)}
-#skills .tc-icon{width:36px;height:36px;margin-bottom:14px;color:rgba(255,255,255,0.5)}
+#skills .tc-icon{width:28px;height:28px;margin-bottom:10px;color:rgba(255,255,255,0.5)}
+@media(min-width:768px){#skills .tc-icon{width:36px;height:36px;margin-bottom:14px}}
 #skills .tc-icon svg{width:100%;height:100%}
-#skills .tc-name{font-size:clamp(14px,1.8vw,20px);font-weight:700;color:#fff;margin-bottom:5px;letter-spacing:-.01em}
-#skills .tc-cat{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--w35);margin-bottom:12px}
+#skills .tc-name{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;letter-spacing:-.01em}
+@media(min-width:768px){#skills .tc-name{font-size:clamp(14px,1.8vw,20px)}}
+#skills .tc-cat{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--w35);margin-bottom:10px}
 #skills .bar{height:2px;background:rgba(255,255,255,0.07);border-radius:999px;overflow:hidden}
 #skills .bar-fill{height:100%;border-radius:999px;background:rgba(255,255,255,0.28);width:0;transition:width 1.4s cubic-bezier(.22,1,.36,1)}
-#skills .ai-row{padding:20px 26px;display:flex;align-items:center;justify-content:space-between;gap:14px}
-#skills .ai-icon{width:28px;height:28px;color:rgba(255,255,255,0.3);flex-shrink:0}
-#skills .ai-icon svg{width:100%;height:100%}
-#skills .ai-name{font-size:17px;font-weight:700;color:#fff;letter-spacing:-.01em}
-#skills .ai-sub{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--w35);margin-top:3px}
-#skills .lang-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-#skills .lc{padding:18px 22px;display:flex;align-items:center;gap:14px}
-#skills .flag{font-size:22px;line-height:1}
-#skills .lc-name{font-size:14px;font-weight:700;color:#fff;letter-spacing:-.01em}
-#skills .lc-lv{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--w35);margin-top:3px}
+#skills .lang-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#skills .lc{padding:14px 16px;display:flex;align-items:center;gap:12px}
+@media(min-width:768px){#skills .lc{padding:18px 22px}}
+#skills .flag{font-size:20px;line-height:1}
+#skills .lc-name{font-size:13px;font-weight:700;color:#fff;letter-spacing:-.01em}
+#skills .lc-lv{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--w35);margin-top:2px}
 
-/* ── PILLARS ── */
-#pillars .inner{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:center;gap:28px}
-#pillars .pl-head{font-size:clamp(40px,6.5vw,86px);font-weight:900;line-height:.9;letter-spacing:-.03em;color:#fff}
-#pillars .pl-head span{color:var(--w35);font-weight:400}
-#pillars .pl-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-#pillars .pc{padding:32px 26px;display:flex;flex-direction:column;min-height:260px}
-#pillars .pc-num{font-size:clamp(56px,7vw,110px);font-weight:900;color:rgba(255,255,255,0.04);line-height:1;margin-bottom:14px}
-#pillars .pc-cat{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--w35);margin-bottom:10px}
-#pillars .pc-title{font-size:clamp(14px,1.8vw,20px);font-weight:700;color:#fff;margin-bottom:10px;letter-spacing:-.01em}
-#pillars .pc-desc{font-size:12px;line-height:1.85;color:var(--w50);margin-top:auto}
-#pillars .manifesto{padding:22px 30px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
-#pillars .mq{font-size:clamp(13px,1.6vw,19px);font-weight:400;color:var(--w65);letter-spacing:.01em;flex:1;text-align:center}
-
-/* ── LIFE ── */
-#life .inner{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:center;gap:28px}
-#life .lf-head{font-size:clamp(40px,6.5vw,84px);font-weight:900;line-height:.9;letter-spacing:-.03em;color:#fff}
+/* ══ LIFE ══ */
+#life .inner{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:center;gap:20px}
+#life .lf-head{font-size:clamp(32px,7vw,84px);font-weight:900;line-height:.9;letter-spacing:-.03em;color:#fff}
 #life .lf-head span{color:var(--w35);font-weight:400}
-#life .hb-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-#life .hc{padding:28px 22px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
-#life .hc-glyph{font-size:36px;color:rgba(255,255,255,0.08);line-height:1}
-#life .hc-title{font-size:clamp(13px,1.6vw,17px);font-weight:700;color:#fff;letter-spacing:-.01em}
-#life .hc-desc{font-size:12px;line-height:1.8;color:var(--w35);max-width:210px}
-#life .feat-row{display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr;padding:26px 30px}
-#life .feat-item{text-align:center;padding:0 20px}
-#life .feat-n{font-size:clamp(24px,3.5vw,44px);font-weight:900;color:rgba(255,255,255,0.07);line-height:1;margin-bottom:7px}
-#life .feat-l{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--w35)}
-#life .vd{background:rgba(255,255,255,0.06)}
-#life .quote-card{padding:28px 36px;text-align:center}
-#life .quote-card p{font-size:clamp(13px,1.6vw,20px);font-weight:400;color:rgba(255,255,255,.6);line-height:1.55;letter-spacing:.01em}
+#life .hb-grid{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:480px){#life .hb-grid{grid-template-columns:1fr 1fr 1fr}}
+#life .hc{padding:20px 16px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
+#life .hc-glyph{font-size:28px;color:rgba(255,255,255,0.08);line-height:1}
+#life .hc-title{font-size:13px;font-weight:700;color:#fff;letter-spacing:-.01em}
+#life .hc-desc{font-size:11px;line-height:1.75;color:var(--w35);max-width:200px}
+#life .pillar-grid{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:480px){#life .pillar-grid{grid-template-columns:1fr 1fr 1fr}}
+#life .quote-card{padding:20px 24px;text-align:center}
+#life .quote-card p{font-size:clamp(12px,1.6vw,18px);font-weight:400;color:rgba(255,255,255,.6);line-height:1.55;letter-spacing:.01em}
 
-/* ── CONTACT ── */
+/* ══ CONTACT ══ */
 #contact .inner{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:space-between}
-#contact .ct-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:40px}
-#contact .ct-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:44px;align-items:center;flex:1}
-#contact .big{font-size:clamp(48px,10vw,140px);font-weight:900;line-height:.85;letter-spacing:-.04em;color:#fff}
-#contact .italic{font-size:clamp(38px,8vw,112px);font-weight:400;line-height:.9;letter-spacing:-.03em;color:var(--w35)}
-#contact .ct-right p{font-size:clamp(13px,1.3vw,15px);font-weight:300;line-height:1.9;color:var(--w50);margin-bottom:24px}
-#contact .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-#contact .ic{padding:18px 20px;text-decoration:none;display:block;transition:background .25s}
+#contact .ct-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px}
+#contact .ct-grid{display:flex;flex-direction:column;gap:28px;flex:1}
+@media(min-width:768px){#contact .ct-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:44px;align-items:center}}
+#contact .big{font-size:clamp(40px,10vw,140px);font-weight:900;line-height:.85;letter-spacing:-.04em;color:#fff}
+#contact .italic{font-size:clamp(32px,8vw,112px);font-weight:400;line-height:.9;letter-spacing:-.03em;color:var(--w35)}
+#contact .ct-right p{font-size:13px;font-weight:300;line-height:1.9;color:var(--w50);margin-bottom:20px}
+#contact .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#contact .ic{padding:14px 16px;text-decoration:none;display:block;transition:background .25s;border-radius:14px}
+@media(min-width:768px){#contact .ic{padding:18px 20px}}
 #contact .ic:hover{background:rgba(255,255,255,0.09)}
-#contact .ic-lbl{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--w35);margin-bottom:5px}
-#contact .ic-val{font-size:clamp(11px,1.1vw,13px);font-weight:600;color:#fff;letter-spacing:-.01em}
-#contact .footer{display:flex;justify-content:space-between;align-items:center;padding-top:20px;border-top:1px solid rgba(255,255,255,0.05)}
+#contact .ic-lbl{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--w35);margin-bottom:4px}
+#contact .ic-val{font-size:12px;font-weight:600;color:#fff;letter-spacing:-.01em}
+#contact .footer{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid rgba(255,255,255,0.05);flex-wrap:wrap;gap:8px}
 </style>
 </head>
 <body>
@@ -162,66 +146,72 @@ section{scroll-snap-align:start;scroll-snap-stop:always;min-height:100vh;positio
   <div class="nd on" data-sec="hero"></div>
   <div class="nd" data-sec="about"></div>
   <div class="nd" data-sec="skills"></div>
-
   <div class="nd" data-sec="life"></div>
   <div class="nd" data-sec="contact"></div>
 </div>
 
 <!-- ══ HERO ══ -->
-<section id="hero" style="padding:40px 60px 0;justify-content:space-between">
+<section id="hero">
   <div class="wm" style="bottom:-8%;right:-4%;transform:rotate(-4deg)">01</div>
 
   <!-- TOP BAR -->
   <div style="display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:1" class="rv">
     <div>
-      <div style="font-size:11px;letter-spacing:.05em;color:rgba(255,255,255,0.25);margin-bottom:4px">2026</div>
+      <div style="font-size:10px;letter-spacing:.05em;color:rgba(255,255,255,0.25);margin-bottom:3px">2026</div>
       <div style="font-size:11px;letter-spacing:.05em;color:rgba(255,255,255,0.5);font-weight:500">Creative Presentation</div>
     </div>
-    <div class="gpill" style="padding:8px 20px"><span class="lbl" style="color:rgba(255,255,255,.5)">© 2026 · Open for Collaboration</span></div>
+    <div class="gpill" style="padding:7px 14px"><span class="lbl" style="color:rgba(255,255,255,.5);font-size:9px">© 2026 · Open for Work</span></div>
     <div style="text-align:right">
-      <div style="font-size:11px;letter-spacing:.05em;color:rgba(255,255,255,0.25);margin-bottom:4px">HCMC, Vietnam</div>
-      <div style="font-size:11px;letter-spacing:.05em;color:rgba(255,255,255,0.5);font-weight:500">UI/UX & Multimedia</div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-bottom:3px">HCMC, VN</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.5);font-weight:500">UI/UX & Multimedia</div>
     </div>
   </div>
 
-  <!-- MIDDLE INFO ROW -->
-  <div style="display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;padding:0 2px" class="rv" style="transition-delay:.2s">
+  <!-- MIDDLE INFO ROW — hidden on mobile, show on tablet+ -->
+  <div style="display:none;justify-content:space-between;align-items:center;position:relative;z-index:1" class="rv desktop-row">
     <div style="display:flex;align-items:center;gap:16px">
-      <span style="font-size:12px;letter-spacing:.05em;color:rgba(255,255,255,0.4)">UI/UX Designer</span>
-      <span style="color:rgba(255,255,255,0.2);font-size:12px">/</span>
-      <span style="font-size:12px;letter-spacing:.05em;color:rgba(255,255,255,0.4)">Multimedia Editor</span>
-      <span style="color:rgba(255,255,255,0.2);font-size:12px">/</span>
-      <span style="font-size:12px;letter-spacing:.05em;color:rgba(255,255,255,0.4)">AI-Powered Creator</span>
+      <span style="font-size:12px;color:rgba(255,255,255,0.4)">UI/UX Designer</span>
+      <span style="color:rgba(255,255,255,0.2)">/</span>
+      <span style="font-size:12px;color:rgba(255,255,255,0.4)">Multimedia Editor</span>
+      <span style="color:rgba(255,255,255,0.2)">/</span>
+      <span style="font-size:12px;color:rgba(255,255,255,0.4)">AI-Powered Creator</span>
     </div>
     <div style="display:flex;align-items:center;gap:32px">
-      <span style="font-size:12px;letter-spacing:.05em;color:rgba(255,255,255,0.4)">minhman03012009@gmail.com</span>
-      <span style="font-size:12px;letter-spacing:.05em;color:rgba(255,255,255,0.4)">+84 327 469 961</span>
-      <span style="font-size:12px;letter-spacing:.05em;color:rgba(255,255,255,0.4)">HCMC, Vietnam</span>
+      <span style="font-size:12px;color:rgba(255,255,255,0.4)">minhman03012009@gmail.com</span>
+      <span style="font-size:12px;color:rgba(255,255,255,0.4)">+84 327 469 961</span>
     </div>
+  </div>
+
+  <!-- ROLES — mobile only -->
+  <div style="display:flex;flex-wrap:wrap;gap:8px;position:relative;z-index:1" class="rv mobile-roles">
+    <span style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,0.4)">UI/UX Designer</span>
+    <span style="color:rgba(255,255,255,0.2);font-size:10px">/</span>
+    <span style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,0.4)">Multimedia Editor</span>
+    <span style="color:rgba(255,255,255,0.2);font-size:10px">/</span>
+    <span style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,0.4)">AI-Powered Creator</span>
   </div>
 
   <!-- MASSIVE PORTFOLIO TEXT -->
-  <div style="position:relative;z-index:1;overflow:hidden;line-height:0.82;margin:0 -60px;margin-top:800px" class="rv" style="transition-delay:.3s">
-    <div style="font-size:clamp(100px,22vw,280px);font-weight:900;letter-spacing:-.04em;color:#ffffff;line-height:0.82;padding:0 20px">
+  <div style="position:relative;z-index:1;overflow:hidden;line-height:0.82;margin:0 -20px;margin-top:auto" class="rv">
+    <div style="font-size:clamp(72px,22vw,280px);font-weight:900;letter-spacing:-.04em;color:#ffffff;line-height:0.82;padding:0 12px">
       Portfolio
     </div>
-    <!-- BY NAME — overlaid above the text -->
-    <div style="position:absolute;top:1px;left:37px;font-size:30px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,0.3);font-weight:400">
+    <div style="position:absolute;top:4px;left:18px;font-size:clamp(10px,2vw,18px);letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);font-weight:400">
       by NGO MINH MAN
     </div>
   </div>
 
   <!-- SLOGAN BOTTOM -->
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:36px;position:relative;z-index:1;border-top:1px solid rgba(255,255,255,0.05);padding-top:20px" class="rv" style="transition-delay:.5s">
-    <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,0.18)">Ngo Minh Man · 2026</div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:52px;position:relative;z-index:1;border-top:1px solid rgba(255,255,255,0.05);padding-top:16px;margin-top:16px;flex-wrap:wrap;gap:10px" class="rv">
+    <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,0.18)">Ngo Minh Man · 2026</div>
     <div style="text-align:right">
-      <div style="font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:-100px">—</div>
-      <div style="font-size:clamp(14px,2vw,22px);font-weight:900;line-height:1.1;letter-spacing:-.02em;color:rgba(255,255,255,0.75)">"Failure only happens when you give up."</div>
+      <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:6px">Personal Manifesto —</div>
+      <div style="font-size:clamp(12px,2vw,20px);font-weight:900;line-height:1.1;letter-spacing:-.02em;color:rgba(255,255,255,0.75)">"Failure only happens when you give up."</div>
     </div>
   </div>
 
   <div class="scroll-ind">
-    <span class="lbl">Scroll</span>
+    <span class="lbl" style="font-size:9px">Scroll</span>
     <div class="scroll-line"></div>
   </div>
 </section>
@@ -229,7 +219,7 @@ section{scroll-snap-align:start;scroll-snap-stop:always;min-height:100vh;positio
 <!-- ══ ABOUT ══ -->
 <section id="about">
   <div class="wm" style="top:-8%;left:-4%">02</div>
-  <span class="lbl rv" style="position:relative;z-index:1;margin-bottom:28px">— 01 / The Philosophy</span>
+  <span class="lbl rv" style="position:relative;z-index:1;margin-bottom:20px">— 01 / The Philosophy</span>
   <div class="inner">
     <div class="ab-grid rv" style="transition-delay:.1s">
       <div class="ab-title">Design<br><span>is an</span><br>Obsession.</div>
@@ -254,104 +244,84 @@ section{scroll-snap-align:start;scroll-snap-stop:always;min-height:100vh;positio
 <!-- ══ SKILLS ══ -->
 <section id="skills">
   <div class="wm" style="bottom:-8%;right:-4%">03</div>
-  <span class="lbl rv" style="position:relative;z-index:1;margin-bottom:28px">— 02 / The Arsenal</span>
+  <span class="lbl rv" style="position:relative;z-index:1;margin-bottom:20px">— 02 / The Arsenal</span>
   <div class="inner">
     <div class="sk-head rv" style="transition-delay:.1s">
       <div class="sk-title">Skills &<span>Weapons.</span></div>
-      <div class="lbl" style="text-align:right">Figma · After Effects<br>Illustrator · Photoshop · AI</div>
+      <div class="lbl" style="font-size:9px">Figma · After Effects · Illustrator · Photoshop</div>
     </div>
     <div class="tool-grid rv" style="transition-delay:.2s">
-      <!-- FIGMA -->
       <div class="g tc" data-level="95">
-        <div class="tc-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2H8.667a3.333 3.333 0 0 0 0 6.667H12z" opacity=".5"/><path d="M12 8.667H8.667a3.333 3.333 0 0 0 0 6.666H12z"/><path d="M18.667 12A3.333 3.333 0 1 1 12 12a3.333 3.333 0 0 1 6.667 0Zm-10 3.334H12v3.333a3.333 3.333 0 1 1-3.333-3.334Z" opacity=".5"/><path d="M12 2h3.333a3.333 3.333 0 1 1 0 6.667H12z"/></g></svg>
-        </div>
+        <div class="tc-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2H8.667a3.333 3.333 0 0 0 0 6.667H12z" opacity=".5"/><path d="M12 8.667H8.667a3.333 3.333 0 0 0 0 6.666H12z"/><path d="M18.667 12A3.333 3.333 0 1 1 12 12a3.333 3.333 0 0 1 6.667 0Zm-10 3.334H12v3.333a3.333 3.333 0 1 1-3.333-3.334Z" opacity=".5"/><path d="M12 2h3.333a3.333 3.333 0 1 1 0 6.667H12z"/></g></svg></div>
         <div class="tc-name">FIGMA</div>
-        <div class="tc-cat">UI Design · Prototyping · Components</div>
+        <div class="tc-cat">UI Design · Prototyping</div>
         <div class="bar"><div class="bar-fill"></div></div>
       </div>
-      <!-- AFTER EFFECTS -->
       <div class="g tc" data-level="90">
-        <div class="tc-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M21 7v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4"/><path d="M14 13v-1a2 2 0 0 1 2-2v0a2 2 0 0 1 2 2v1zm0 0v1a2 2 0 0 0 2 2h1.5M6 16l1.125-3M12 16l-1.125-3m-3.75 0L9 8l1.875 5m-3.75 0h3.75"/></g></svg>
-        </div>
+        <div class="tc-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M21 7v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4"/><path d="M14 13v-1a2 2 0 0 1 2-2v0a2 2 0 0 1 2 2v1zm0 0v1a2 2 0 0 0 2 2h1.5M6 16l1.125-3M12 16l-1.125-3m-3.75 0L9 8l1.875 5m-3.75 0h3.75"/></g></svg></div>
         <div class="tc-name">AFTER EFFECTS</div>
-        <div class="tc-cat">Motion Graphics · VFX · Animation</div>
+        <div class="tc-cat">Motion · VFX</div>
         <div class="bar"><div class="bar-fill"></div></div>
       </div>
-      <!-- ILLUSTRATOR -->
       <div class="g tc" data-level="85">
-        <div class="tc-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M21 7v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4m-5 5v4m0-7v.01"/><path d="m7 16l1.125-3M13 16l-1.125-3m-3.75 0L10 8l1.875 5m-3.75 0h3.75"/></g></svg>
-        </div>
+        <div class="tc-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M21 7v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4m-5 5v4m0-7v.01"/><path d="m7 16l1.125-3M13 16l-1.125-3m-3.75 0L10 8l1.875 5m-3.75 0h3.75"/></g></svg></div>
         <div class="tc-name">ILLUSTRATOR</div>
-        <div class="tc-cat">Vector Design · Brand Identity</div>
+        <div class="tc-cat">Vector · Brand</div>
         <div class="bar"><div class="bar-fill"></div></div>
       </div>
-      <!-- PHOTOSHOP -->
       <div class="g tc" data-level="88">
-        <div class="tc-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M21 7v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4"/><path d="M7 16v-4m0 0V8h2a2 2 0 0 1 2 2v0a2 2 0 0 1-2 2zm10-1c-.306-.613-.933-1-1.618-1H15a1.5 1.5 0 0 0-1.5 1.5v0A1.5 1.5 0 0 0 15 13h.5a1.5 1.5 0 0 1 1.5 1.5v0a1.5 1.5 0 0 1-1.5 1.5h-.382a1.81 1.81 0 0 1-1.618-1v0"/></g></svg>
-        </div>
+        <div class="tc-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M21 7v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4"/><path d="M7 16v-4m0 0V8h2a2 2 0 0 1 2 2v0a2 2 0 0 1-2 2zm10-1c-.306-.613-.933-1-1.618-1H15a1.5 1.5 0 0 0-1.5 1.5v0A1.5 1.5 0 0 0 15 13h.5a1.5 1.5 0 0 1 1.5 1.5v0a1.5 1.5 0 0 1-1.5 1.5h-.382a1.81 1.81 0 0 1-1.618-1v0"/></g></svg></div>
         <div class="tc-name">PHOTOSHOP</div>
-        <div class="tc-cat">Visual Design · Photo Manipulation</div>
+        <div class="tc-cat">Visual · Photo</div>
         <div class="bar"><div class="bar-fill"></div></div>
       </div>
     </div>
-    <!-- LANG -->
     <div class="lang-row rv" style="transition-delay:.3s">
       <div class="g lc"><div class="flag">🇻🇳</div><div><div class="lc-name">VIETNAMESE</div><div class="lc-lv">Native Language</div></div></div>
-      <div class="g lc"><div class="flag">🇬🇧</div><div><div class="lc-name">ENGLISH</div><div class="lc-lv">Conversational · Everyday Use</div></div></div>
+      <div class="g lc"><div class="flag">🇬🇧</div><div><div class="lc-name">ENGLISH</div><div class="lc-lv">Conversational</div></div></div>
     </div>
   </div>
 </section>
 
-
-
 <!-- ══ LIFE ══ -->
 <section id="life">
-  <div class="wm" style="bottom:-8%;right:-4%">05</div>
-  <span class="lbl rv" style="position:relative;z-index:1;margin-bottom:28px">— 04 / The Creative Life</span>
+  <div class="wm" style="bottom:-8%;right:-4%">04</div>
+  <span class="lbl rv" style="position:relative;z-index:1;margin-bottom:20px">— 03 / Interests & Passions</span>
   <div class="inner">
     <div class="rv" style="transition-delay:.1s"><div class="lf-head">Interests &<br><span>Deep Passions.</span></div></div>
-
-    <!-- HOBBIES ROW -->
     <div class="hb-grid rv" style="transition-delay:.2s">
-      <div class="g hc"><div class="hc-glyph">◉</div><div class="hc-title">PHOTOGRAPHY</div><p class="hc-desc">Capturing real moments trains the eye — every frame is a lesson in light, composition, and emotion.</p></div>
-      <div class="g hc"><div class="hc-glyph">✦</div><div class="hc-title">VIDEO EDITING</div><p class="hc-desc">Cutting and crafting narratives frame by frame — where storytelling meets technical precision.</p></div>
-      <div class="g hc"><div class="hc-glyph">♩</div><div class="hc-title">MUSIC & MOVIES</div><p class="hc-desc">Rhythm and cinema feed the creative mind — sound shapes timing, film shapes narrative instinct.</p></div>
+      <div class="g hc"><div class="hc-glyph">◉</div><div class="hc-title">PHOTOGRAPHY</div><p class="hc-desc">Every frame is a lesson in light, composition, and emotion.</p></div>
+      <div class="g hc"><div class="hc-glyph">✦</div><div class="hc-title">VIDEO EDITING</div><p class="hc-desc">Storytelling meets technical precision, frame by frame.</p></div>
+      <div class="g hc"><div class="hc-glyph">♩</div><div class="hc-title">MUSIC & MOVIES</div><p class="hc-desc">Sound shapes timing, film shapes narrative instinct.</p></div>
     </div>
-
-    <!-- 3 PILLARS DEEP INTERESTS -->
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px" class="rv" style="transition-delay:.3s">
-      <div class="g" style="padding:24px 22px">
-        <div style="font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--w35);margin-bottom:10px">— Design Weapon 01</div>
-        <div style="font-size:clamp(14px,1.6vw,18px);font-weight:700;color:#fff;margin-bottom:8px;letter-spacing:-.01em">PHYSICS</div>
-        <p style="font-size:12px;line-height:1.85;color:var(--w50)">Understanding real-world physics lets me craft Motion Graphics so natural — viewers feel gravity and momentum in every frame.</p>
+    <div class="pillar-grid rv" style="transition-delay:.3s">
+      <div class="g" style="padding:18px 16px">
+        <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--w35);margin-bottom:8px">— Design Weapon 01</div>
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:6px">PHYSICS</div>
+        <p style="font-size:11px;line-height:1.8;color:var(--w50)">Real-world physics lets me craft Motion Graphics so natural — viewers feel gravity in every frame.</p>
       </div>
-      <div class="g" style="padding:24px 22px">
-        <div style="font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--w35);margin-bottom:10px">— Design Weapon 02</div>
-        <div style="font-size:clamp(14px,1.6vw,18px);font-weight:700;color:#fff;margin-bottom:8px;letter-spacing:-.01em">PSYCHOLOGY</div>
-        <p style="font-size:12px;line-height:1.85;color:var(--w50)">The core foundation for understanding user behavior — every UX decision is backed by how the human mind actually works.</p>
+      <div class="g" style="padding:18px 16px">
+        <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--w35);margin-bottom:8px">— Design Weapon 02</div>
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:6px">PSYCHOLOGY</div>
+        <p style="font-size:11px;line-height:1.8;color:var(--w50)">Every UX decision is backed by how the human mind actually works.</p>
       </div>
-      <div class="g" style="padding:24px 22px">
-        <div style="font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--w35);margin-bottom:10px">— Design Weapon 03</div>
-        <div style="font-size:clamp(14px,1.6vw,18px);font-weight:700;color:#fff;margin-bottom:8px;letter-spacing:-.01em">FASHION</div>
-        <p style="font-size:12px;line-height:1.85;color:var(--w50)">Fashion sharpens my aesthetic sense — color theory, proportion, and trend awareness keep my UI designs timeless yet current.</p>
+      <div class="g" style="padding:18px 16px">
+        <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--w35);margin-bottom:8px">— Design Weapon 03</div>
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:6px">FASHION</div>
+        <p style="font-size:11px;line-height:1.8;color:var(--w50)">Color, proportion, and trends keep my UI designs timeless yet current.</p>
       </div>
     </div>
-
     <div class="g quote-card rv" style="transition-delay:.4s"><p>"Design is not decoration. It is the bridge between human emotion and digital experience."</p></div>
   </div>
 </section>
 
 <!-- ══ CONTACT ══ -->
 <section id="contact">
-  <div class="wm" style="top:-8%;right:-4%;transform:rotate(-4deg)">06</div>
+  <div class="wm" style="top:-8%;right:-4%;transform:rotate(-4deg)">05</div>
   <div class="inner">
     <div class="ct-top rv">
-      <span class="lbl">— 05 / Let's Create</span>
-      <div class="gpill" style="padding:8px 18px"><span class="lbl" style="color:rgba(100,255,160,.7)">● Currently Available</span></div>
+      <span class="lbl">— 04 / Let's Create</span>
+      <div class="gpill" style="padding:7px 14px"><span class="lbl" style="color:rgba(100,255,160,.7);font-size:9px">● Available</span></div>
     </div>
     <div class="ct-grid rv" style="transition-delay:.1s">
       <div>
@@ -361,7 +331,7 @@ section{scroll-snap-align:start;scroll-snap-stop:always;min-height:100vh;positio
         <div class="italic">Extraordinary.</div>
       </div>
       <div class="ct-right">
-        <p>I am always open to world-class projects. If you want a product that is not only beautiful but perfect down to every last detail — I want to hear from you.</p>
+        <p>Always open to world-class projects. If you want something perfect down to every last detail — reach out.</p>
         <div class="info-grid">
           <a class="g ic" href="tel:+84327469961"><div class="ic-lbl">Phone</div><div class="ic-val">+84 327 469 961</div></a>
           <a class="g ic" href="mailto:minhman03012009@gmail.com"><div class="ic-lbl">Email</div><div class="ic-val">minhman03012009@gmail.com</div></a>
@@ -371,43 +341,51 @@ section{scroll-snap-align:start;scroll-snap-stop:always;min-height:100vh;positio
       </div>
     </div>
     <div class="footer rv" style="transition-delay:.2s">
-      <span class="lbl">Ngo Minh Man — Portfolio 2026</span>
-      <span class="lbl">Designed with obsession. Powered by AI.</span>
+      <span class="lbl" style="font-size:9px">Ngo Minh Man — 2026</span>
+      <span class="lbl" style="font-size:9px">Designed with obsession.</span>
     </div>
   </div>
 </section>
 
 <script>
-// ── tsParticles BACKGROUND ──
+// ── tsParticles ──
 tsParticles.load("bg-canvas",{
   background:{color:{value:"#080808"}},
-  fpsLimit:180,
+  fpsLimit:60,
   particles:{
-    number:{value:80,density:{enable:true,area:900}},
+    number:{value:60,density:{enable:true,area:900}},
     color:{value:"#ffffff"},
     opacity:{value:0.25,random:{enable:true,minimumValue:0.08},animation:{enable:true,speed:0.8,minimumValue:0.08,sync:false}},
     size:{value:3,random:{enable:true,minimumValue:1}},
-    links:{enable:true,distance:200,color:"#ffffff",opacity:0.07,width:1},
-    move:{enable:true,speed:0.4,direction:"none",random:true,straight:false,outModes:{default:"out"},attract:{enable:false}},
+    links:{enable:true,distance:140,color:"#ffffff",opacity:0.07,width:1},
+    move:{enable:true,speed:0.4,direction:"none",random:true,straight:false,outModes:{default:"out"}},
     shape:{type:"circle"}
   },
   interactivity:{
     detectsOn:"window",
-    events:{onHover:{enable:true,mode:"repulse"},onClick:{enable:false},resize:true},
+    events:{onHover:{enable:true,mode:"repulse"},resize:true},
     modes:{repulse:{distance:100,duration:0.6,speed:2,factor:12}}
   },
   detectRetina:true
 })
 
-// ── CURSOR ──
+// ── CURSOR (desktop only) ──
 const cur=document.getElementById('cur'),cur2=document.getElementById('cur2')
 let mx=0,my=0,cx=0,cy=0
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'})
-;(function animC(){cx+=(mx-cx)*.12;cy+=(my-cy)*.12;cur2.style.left=cx+'px';cur2.style.top=cy+'px';requestAnimationFrame(animC)})()
-document.querySelectorAll('a,.g,.nd,.gpill,.tc').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2.5)';cur2.style.transform='translate(-50%,-50%) scale(1.6)'})
-  el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';cur2.style.transform='translate(-50%,-50%) scale(1)'})
-})
+if(window.matchMedia('(pointer:fine)').matches){
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'})
+  ;(function animC(){cx+=(mx-cx)*.12;cy+=(my-cy)*.12;cur2.style.left=cx+'px';cur2.style.top=cy+'px';requestAnimationFrame(animC)})()
+  document.querySelectorAll('a,.g,.nd,.gpill,.tc').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2.5)';cur2.style.transform='translate(-50%,-50%) scale(1.6)'})
+    el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';cur2.style.transform='translate(-50%,-50%) scale(1)'})
+  })
+}
+
+// show desktop info row
+if(window.innerWidth>=768){
+  document.querySelectorAll('.desktop-row').forEach(el=>el.style.display='flex')
+  document.querySelectorAll('.mobile-roles').forEach(el=>el.style.display='none')
+}
 
 // ── PROGRESS ──
 const prog=document.getElementById('prog')
